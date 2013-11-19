@@ -60,11 +60,8 @@ param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(Ecdata)
-data(PatentsHGH)
 
 data(PatentsHGH)
-
 input.frame <- PatentsHGH
 summary(input.frame)
 formula <- pat ~ year + ardsic + scisect + logk + sumpat + logr
@@ -77,8 +74,7 @@ modal$weights <- 1
 
 summary(modal)
 coefficients(modal)
-
-
+}
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
