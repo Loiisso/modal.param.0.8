@@ -5,7 +5,7 @@
 Main iterface function for parametric modal regression
 }
 \description{
-Estimates glm() object for modal regression estimation \n through iterative reweighting of observations
+Estimates glm() object for modal regression estimation through iterative reweighting of observations
 }
 \usage{
 param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL, bw.precise.h = F, scale = 2,  start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control = list(), ...)
