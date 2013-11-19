@@ -2,51 +2,51 @@
 \alias{param.mod}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Main iterface function
+Main iterface function for parametric modal regression
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Estimates glm() object for modal regression estimation \n thorugh iterative reweighting of observations
 }
 \usage{
-param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9), bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL, bw.precise.h = F, scale = 2, start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control = list(), ...)
+param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9), \n bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL, bw.precise.h = F, scale = 2, \n start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control = list(), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{formula}{
-%%     ~~Describe \code{formula} here~~
+a formula object
 }
   \item{data}{
-%%     ~~Describe \code{data} here~~
+a data.frame object, containing neccesary variables
 }
   \item{max.iter}{
-%%     ~~Describe \code{max.iter} here~~
+maximum number of iterations in iterative least squares
 }
   \item{conv.limits}{
-%%     ~~Describe \code{conv.limits} here~~
+difference in EM maximization results after which the iterative process have converged
 }
   \item{bw}{
-%%     ~~Describe \code{bw} here~~
+choice of bandwidth function (see further in bw() R function) \n for density estimation procedures in , mode.ders.estim(), modal.estim() functions.\n Possible values are “botev”,”nrd”,”default”, “SJ”,”nrd0”. Has a higher priority over “bw.mode.ders.estim” and “bw.mode.est” values.
 }
   \item{bw.mode.ders.estim}{
-%%     ~~Describe \code{bw.mode.ders.estim} here~~
+ specific bandwidth choice for mode.ders.estim() functions
 }
   \item{bw.mode.est}{
-%%     ~~Describe \code{bw.mode.est} here~~
+specific bandwidth choice for mode.est() function
 }
   \item{bw.precise.h}{
-%%     ~~Describe \code{bw.precise.h} here~~
+should bandwidth choice be recalculated inside each iteration?\n (Not implemented, slows down calculation, increases bias for now).
 }
   \item{scale}{
-%%     ~~Describe \code{scale} here~~
+a dividor for “start.h” in modal.estim() function. \n Recommened value is 2, - gives minimum bias on monte-carlo simulation. \n A hack, actually. Once the source of bias shall be removed, this argument shall be deleted.
 }
   \item{start.rlm.control}{
-%%     ~~Describe \code{start.rlm.control} here~~
+ a list object of arguments for rlm() function that gives initial density of residuals
 }
   \item{mode.ders.estim.control}{
-%%     ~~Describe \code{mode.ders.estim.control} here~~
+a list object of arguments for mode.ders.estim() function
 }
   \item{mode.est.control}{
-%%     ~~Describe \code{mode.est.control} here~~
+a list object of arguments for mode.est() function
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
@@ -78,50 +78,26 @@ param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9), bw = "nrd", bw.m
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+library(Ecdata)
+data(PatentsHGH)
 
-## The function is currently defined as
-function (formula, data, max.iter = 500, conv.limits = 10^(-9), 
-    bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL, 
-    bw.precise.h = F, scale = 2, start.rlm.control = list(), 
-    mode.ders.estim.control = list(), mode.est.control = list(), 
-    ...) 
-{
-    if ((!is.null(bw)) & is.null(bw.mode.ders.estim)) {
-        mode.est.control$bw <- bw
-    }
-    else if (!is.null(bw.mode.ders.estim)) {
-        mode.est.control$bw <- bw.mode.est
-    }
-    if ((!is.null(bw)) & is.null(bw.mode.ders.estim)) {
-        mode.ders.estim.control$bw <- bw
-    }
-    else if (!is.null(bw.mode.ders.estim)) {
-        mode.ders.estim.control$bw <- bw.mode.ders.estim
-    }
-    data <- get_all_vars(formula = formula, data = data)
-    rlm.reg <- do.call("rlm", c(list(formula = formula, data = data, 
-        x.ret = T, y.ret = T), start.rlm.control))
-    i.residuals <- rlm.reg$residuals
-    mode.est.control$y <- i.residuals
-    normal.mode <- do.call(mode.est, mode.est.control)
-    mode.ders.estim.control$y <- i.residuals
-    mode.ders.estim.control$mode <- normal.mode
-    mode.ders <- do.call(mode.ders.estim, mode.ders.estim.control)
-    h <- resid.bw(model.matrix = rlm.reg$x, mode.der0 = mode.ders$mode.der0, 
-        mode.der3 = mode.ders$mode.der3)
-    h <- h/scale
-    warning("Experiment here!: bandwidth is divided by scale - optimal for SJ and botev estimations , \n          making estimates more precise BUT this is only theoretical, works only on belief,\n          DO NOT OVERDO - 2 times is quite enough")
-    density.at.resids <- dnorm(x = i.residuals, 0, sd = h)
-    best.fit <- modal.estim(formula = formula, data = data, start.density = density.at.resids, 
-        start.h = h, max.iter = max.iter, conv.limits = conv.limits, 
-        mode.est.control = mode.est.control, mode.ders.estim.control = mode.ders.estim.control, 
-        ...)
-    return(best.fit)
-  }
-}
+data(PatentsHGH)
+
+input.frame <- PatentsHGH
+summary(input.frame)
+formula <- pat ~ year + ardsic + scisect + logk + sumpat + logr
+data <- input.frame
+lm <- lm(formula = formula, data = data)
+rlm <- rlm(formula = formula, data = data)
+modal <- param.mod(formula = formula, data = data, bw = "SJ", scale = 1)
+# Always do this before summary function for param.mod!
+modal$weights <- 1  
+
+summary(modal)
+coefficients(modal)
+
+
+
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
