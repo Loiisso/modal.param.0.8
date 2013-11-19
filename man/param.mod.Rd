@@ -6,7 +6,11 @@
 Estimates glm() object for modal regression estimation through iterative reweighting of observations
 }
 \usage{
-param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL, bw.precise.h = F, scale = 2,  start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control = list(), ...)
+param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  
+bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL,
+bw.precise.h = F, scale = 2,  
+start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control = list(), 
+...)
 }
 \arguments{
   \item{formula}{- a formula object}
@@ -16,7 +20,7 @@ param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.
   the iterative process have converged}
   \item{bw}{-choice of bandwidth function (see further in bw() R function) 
   for density estimation procedures in  mode.ders.estim(), modal.estim() functions.
-  Possible values are “botev”,”nrd”,”default”, “SJ”,”nrd0”. Has a higher priority over “bw.mode.ders.estim” and “bw.mode.est” values.}
+  Possible values are “botev”,”nrd”,”default”, “SJ”,”nrd0”. Has a higher priority over “bw.mode.ders.estim” and “bw.mode.est” values}
   \item{bw.mode.ders.estim}{- specific bandwidth choice for mode.ders.estim() functions}
   \item{bw.mode.est}{specific bandwidth choice for mode.est() function}
   \item{bw.precise.h}{should bandwidth choice be recalculated inside each iteration? 
@@ -57,18 +61,19 @@ param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+# Example!
 
-input.frame <- PatentsHGH
-summary(input.frame)
-formula <- pat ~ year + ardsic + scisect + logk + sumpat + logr
-data <- input.frame
-lm <- lm(formula = formula, data = data)
-rlm <- rlm(formula = formula, data = data)
-modal <- param.mod(formula = formula, data = data, bw = "SJ", scale = 1)
-# Always do this before summary function for param.mod!
-modal$weights <- 1  
+require(param.mod.0.8)\cr
+input.frame <- PatentsHGH\cr
 
-summary(modal)
+formula <- pat ~ year + ardsic + scisect + logk + sumpat + logr \cr
+data <- input.frame \cr
+modal <- param.mod(formula = formula, data = data, bw = "SJ", scale = 1)\cr
+
+# Always do this before summary function for param.mod!\cr
+modal$weights <- 1  \cr
+
+summary(modal)\cr
 coefficients(modal)
 }
 
