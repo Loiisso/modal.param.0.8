@@ -61,7 +61,6 @@ param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.
 }
 \examples{
 
-data(PatentsHGH)
 input.frame <- PatentsHGH
 summary(input.frame)
 formula <- pat ~ year + ardsic + scisect + logk + sumpat + logr
