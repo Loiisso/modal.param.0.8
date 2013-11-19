@@ -1,16 +1,13 @@
 \name{param.mod}
 \alias{param.mod}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Main iterface function for parametric modal regression
-}
+\title{Main iterface function for parametric modal regression}
 \description{
 Estimates glm() object for modal regression estimation through iterative reweighting of observations
 }
 \usage{
 param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.mode.ders.estim = NULL, bw.mode.est = NULL, bw.precise.h = F, scale = 2,  start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control = list(), ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{formula}{- a formula object}
   \item{data}{- a data.frame object, containing neccesary variables}
@@ -33,7 +30,7 @@ param.mod(formula, data, max.iter = 500, conv.limits = 10^(-9),  bw = "nrd", bw.
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
 }
-}
+
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
