@@ -1,0 +1,11 @@
+Package: modal.param.0.8
+Type: Package
+Title: parametric modal regression
+Version: 0.8
+Date: 2013-11-18
+Author: Artem Puzanov <loiisso@gmail.com>
+Maintainer: Artem Puzanov <loiisso@gmail.com>
+Description: Parametric modal regression, based on article and MATLAB source code by Weixin Yao and Longhai Li (2011)
+License: GPL-2
+Suggests: MASS, ks, kernSmooth
+Packaged: 2013-11-18 19:28:01 UTC; loiso
