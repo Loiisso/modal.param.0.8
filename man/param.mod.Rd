@@ -64,6 +64,7 @@ start.rlm.control = list(), mode.ders.estim.control = list(), mode.est.control =
 # Example!
 
 require(param.mod.0.8)\cr
+data(PatentsHGH)
 input.frame <- PatentsHGH\cr
 
 formula <- pat ~ year + ardsic + scisect + logk + sumpat + logr \cr
