@@ -7,5 +7,5 @@ Author: Artem Puzanov <loiisso@gmail.com>
 Maintainer: Artem Puzanov <loiisso@gmail.com>
 Description: Parametric modal regression, based on article and MATLAB source code by Weixin Yao and Longhai Li (2011)
 License: GPL-2
-Suggests: MASS, ks, kernSmooth
+Depends: MASS, ks, KernSmooth
 Packaged: 2013-11-18 19:28:01 UTC; loiso
